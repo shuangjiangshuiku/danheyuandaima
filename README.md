@@ -4,6 +4,17 @@
 
 单合网站  [https://www.danhe.com/](https://www.danhe.com/)
 
+## 使用的理由
+
+- 插件轻量
+- 对汉语友好
+- 默认代码自动换行
+- 默认显示规范以后的代码
+- 插件还不留查看原版源代码查看
+- 基于谷歌浏览器
+- 基于View Rendered Source这个插件修改而来
+- https://www.crxsoso.com/webstore/detail/ejgngohbdedoabanmclafpkoogegdpob
+
 ## 功能
 
 - 抓取页面原始源代码（服务器返回的内容）
