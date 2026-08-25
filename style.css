@@ -1,0 +1,465 @@
+html, body, div, span, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+abbr, address, cite, code,
+del, dfn, em, img, ins, kbd, q, samp,
+small, strong, sub, sup, var,
+b, i, dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-size: 100%;
+	vertical-align: baseline;
+	background: transparent;
+}
+
+body {
+	line-height: 1;
+}
+
+
+a {
+	margin: 0;
+	padding: 0;
+	font-size: 100%;
+	vertical-align: baseline;
+	background: transparent;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+
+input, select {
+	vertical-align: middle;
+}
+
+
+/* */
+
+
+body {
+	font: 13px Menlo, Consolas, "Courier New", monospace;
+	line-height: 1.5;
+	background-color: #f5f0e8;
+	padding-bottom: 32px;
+}
+
+table {
+	width: 100%;
+	font: 13px Menlo, Consolas, "Courier New", monospace;
+	background-color: #f5f0e8;
+	white-space: pre-wrap;
+	word-break: break-word;
+	tab-size: 4;
+	border-collapse: collapse;
+}
+
+.table-head {
+	width: 100%;
+	font-size: 14px;
+	text-align: center;
+	border-bottom: 1px solid #d5d3d3;
+	padding: 4px 8px;
+	font-weight: bold;
+}
+
+.table-head .tooltip {
+	font-weight: normal;
+}
+
+.table-wrapper {
+	float: left;
+	padding: 0;
+	width: 33.33%;
+	border-right: 1px solid #e4e4e4;
+	box-sizing: border-box;
+}
+
+
+td.line-html, td.line-html-diff {
+	display: flex;
+	padding: 1px 0;
+}
+
+.line-num {
+	flex: 0 0 36px;
+	width: 36px;
+	text-align: right;
+	color: #999;
+	user-select: none;
+	font-size: 12px;
+	padding: 1px 8px 1px 4px;
+	border-right: 1px solid #e4e4e4;
+}
+
+.line-content {
+	flex: 1 1 auto;
+	min-width: 0;
+	padding: 1px 8px 1px 4px;
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+td:hover {
+	background-color: #f9f9f9;
+}
+
+ins {
+	background: #eaf2c2;
+	color: #406619;
+	text-decoration: none;
+}
+
+del {
+	text-decoration: none;
+	color: #b30000;
+	background: #fadad7;
+}
+
+
+.sticky {
+	position: fixed;
+	top: 0;
+	background: #f5f0e8;
+	padding: 4px 0 4px 0
+}
+
+/* stops jump that happens when .sticky removes an element from the document flow */
+.table-prevent-jump {
+	margin-top: 77px;
+}
+
+#bottom-scroll-filler {
+	background-color: #f5f0e8;
+	width: 100%;
+	height: 100vh;
+	clear: both;
+	line-height: 100vh;
+	text-align: center;
+}
+
+#no-panels-selected {
+	position: relative;
+	top: -26%;
+	font-size: 19px;
+	color: #f00;
+}
+
+#raw-status, #rendered-status, #diff-status {
+	margin-top: 50px;
+	text-align: center;
+}
+
+.error {
+	color: #f00;
+}
+
+.label-fetch-as {
+	float: right;
+	user-select: none;
+	font-size: 12px;
+	font-weight: 400;
+	margin-right: 15px;
+}
+
+.column-info {
+    margin: 10px 0 8px 0;
+	font-size: 12px;
+	font-weight: 400;
+}
+
+button {
+	float: right;
+	background: none;
+	outline: none;
+	font-family: Menlo, Consolas, "Courier New", monospace;
+	padding: 1px 6px 2px 6px;
+	font-size: 12px;
+	border: 1px solid #bfbfbf;
+	border-radius: 3px;
+	cursor: pointer;
+}
+
+button:hover {
+	background: #f0f0f0;
+}
+
+#top {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 8px;
+	padding: 6px 12px;
+	border-bottom: 1px solid #e4e4e4;
+	font-size: 12px;
+}
+
+#active-tables {
+	user-select: none;
+	display: flex;
+	align-items: center;
+	gap: 4px;
+}
+
+#active-tables label {
+	cursor: pointer;
+	user-select: none;
+}
+
+#active-tables .max-hint {
+	font-size: 11px;
+	color: #999;
+	margin-left: 6px;
+}
+
+#current-url-bar {
+	flex: 1 1 auto;
+	min-width: 200px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+#current-url {
+	font-size: 12px;
+	color: #555;
+	cursor: pointer;
+	text-decoration: none;
+}
+
+#current-url:hover {
+	color: #000;
+	text-decoration: underline;
+}
+
+#promo-footer {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	text-align: center;
+	padding: 8px 16px;
+	font-size: 12px;
+	color: #666;
+	border-top: 1px solid #d4d0c8;
+	background-color: #ede8df;
+	z-index: 9999;
+}
+
+#promo-footer span {
+	margin-right: 6px;
+}
+
+#promo-footer a {
+	color: #555;
+	text-decoration: none;
+}
+
+#promo-footer a:hover {
+	color: #000;
+	text-decoration: underline;
+}
+
+#right {
+	flex: 0 0 auto;
+	text-align: right;
+	color: #888;
+}
+
+#theme-switcher {
+	margin-top: 18px;
+}
+
+.switch {
+	position: relative;
+	display: inline-block;
+	vertical-align: middle;
+	width: 80px;
+	height: 28px;
+}
+
+/*
+.switch input {
+	display:none;
+}
+
+.slider {
+	position: absolute;
+	cursor: pointer;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #e8e8e8;
+	transition: .4s;
+}
+
+.slider:before {
+	position: absolute;
+	content: "";
+	height: 22px;
+	width: 22px;
+	left: 1px;
+	bottom: 3px;
+	background-color: white;
+	transition: 0.2s;
+}
+
+input:checked + .slider {
+	background-color: #4a4a4a;
+}
+
+input:focus + .slider {
+	box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+	transform: translateX(55px);
+}
+
+input:checked+ .slider .on {
+	display: block;
+}
+
+input:checked + .slider .off {
+	display: none;
+}
+
+.on, .off {
+	position: absolute;
+	transform: translate(-50%,-50%);
+	top: 50%;
+	font-size: 10px;
+	user-select: none;
+}
+
+.on {
+	display: none;
+	left: 40%;
+	color: #fff;
+}
+
+.off {
+	left: 61%;
+	color: #000;
+}
+
+*/
+
+#back-to-top {
+	display: none;
+	position: fixed;
+    bottom: 33px;
+    right: 87px;
+	width: 38px;
+	cursor: pointer;
+	user-select: none;
+	opacity: 0.7;
+	font-size: 13px;
+	text-align: center;
+}
+
+#back-to-top:hover {
+	opacity: 1;
+}
+
+
+.slider.round {
+	border-radius: 34px;
+}
+
+.slider.round:before {
+	border-radius: 50%;
+}
+
+thead {
+	white-space: normal;
+}
+
+.tooltip {
+	position: relative;
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	user-select: none;
+	background: #ececec;
+	font-family: serif;
+	font-size: 13px;
+	color: #666;
+	border-radius: 8px;
+	font-style: italic;
+	text-align: center;
+	line-height: 16px;
+	vertical-align: middle;
+}
+
+.tooltip .tooltiptext {
+	visibility: hidden;
+	opacity: 0;
+	width: 478px;
+	cursor: default;
+	background-color: #353535;
+	color: #fff;
+	text-align: left;
+	border-radius: 5px;
+	padding: 11px;
+	position: absolute;
+	z-index: 10;
+	top: 25px;
+	left: -239px;
+	transition: opacity 0.3s;
+	font: 13px Menlo, Consolas, "Courier New", monospace;
+	font-style: normal;
+}
+
+.tooltip .tooltiptext::after {
+	content: "";
+	position: absolute;
+	top: -8px;
+	left: 20px;
+	border-width: 8px;
+	border-style: solid;
+	border-color: transparent transparent #353535 transparent;
+}
+
+.tooltip:hover .tooltiptext {
+	visibility: visible;
+	opacity: 1;
+}
+
+/* 语法高亮样式 - 参考浏览器 view-source 配色 */
+.hl-tag {
+	color: #800080;  /* 紫色 - 标签名 */
+	font-weight: bold;
+}
+
+.hl-attr {
+	color: #CC0000;  /* 红色 - 属性名 */
+}
+
+.hl-value {
+	color: #0000FF;  /* 蓝色 - 属性值 */
+}
+
+.hl-comment {
+	color: #666666;  /* 灰色 - 注释 */
+	font-style: italic;
+}
+
+.url-link {
+	color: #0066CC;
+	text-decoration: underline;
+	cursor: pointer;
+}
+.url-link:hover {
+	color: #003399;
+	background: #e8f0ff;
+}

@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+	<meta charset="utf-8">
+	<title>单合源代码</title>
+	<link rel="stylesheet" href="style.css"/>
+	<!--<link id="highlight-style" rel="stylesheet" href="light.css">-->
+</head>
+
+<body>
+
+<div id="top">
+
+	<div id="active-tables">
+		显示/隐藏：<label><input type="checkbox" class="table-visible-checkbox">源代码</label>
+		<label><input type="checkbox" class="table-visible-checkbox" checked>初级规范</label>
+		<label><input type="checkbox" class="table-visible-checkbox">渲染后</label>
+		<label><input type="checkbox" class="table-visible-checkbox">差异</label>
+		<span class="max-hint">(最多选3项)</span>
+	</div>
+
+	<div id="current-url-bar">
+		<a id="current-url" href="#" target="_blank">-</a>
+	</div>
+
+	<div id="right">
+		<span id="tips"></span>
+	</div>
+
+</div>
+
+<div class="table-wrapper">
+
+	<table>
+		
+		<thead>
+			<tr>
+				<th class="table-head">
+					源代码
+					<div class="tooltip">i
+						<span class="tooltiptext">服务器原始返回的源码，保留原始格式和行号，便于审查代码规范性</span>
+					</div>
+					<button class="copy-btn">复制</button>
+
+					<div class="column-info">
+						&nbsp;
+					</div>
+				</th>
+			</tr>
+
+		</thead>
+
+		<tbody id="raw-display">
+		</tbody>
+
+		<tfoot>
+			<tr>
+				<td><div id="raw-status"></div></td>
+		</tfoot>
+		
+	</table>
+</div>
+
+<div class="table-wrapper">
+
+	<table>
+		
+		<thead>
+			<tr>
+				<th class="table-head">
+					初级规范
+					<div class="tooltip">i
+						<span class="tooltiptext">经过格式化的源码，标签、缩进、属性均已统一规范。便于阅读和与渲染后代码做精确差异对比。格式化可能掩盖原始代码的不规范之处</span>
+					</div>
+					<button class="copy-btn">复制</button>
+
+					<div class="column-info">
+						&nbsp;
+					</div>
+				</th>
+			</tr>
+
+		</thead>
+
+		<tbody id="beautified-display">
+		</tbody>
+
+		<tfoot>
+			<tr>
+				<td><div id="beautified-status"></div></td>
+		</tfoot>
+		
+	</table>
+</div>
+
+<div class="table-wrapper">
+
+	<table>
+		<thead>
+			<tr>
+				<th class="table-head">
+				渲染后
+					<div class="tooltip">i
+						<span class="tooltiptext">源代码被处理成 DOM 后的渲染结果，包含 JavaScript 所做的所有修改</span>
+					</div>
+					<button class="copy-btn">复制</button>
+
+					<div class="column-info">
+						&nbsp;
+						<!-- Rendered as: <span id="fetch-type-rendered">loading...</span> -->
+					</div>
+				</th>
+			</tr>
+		</thead>
+
+		<tbody id="rendered-display">
+		</tbody>
+
+		<tfoot>
+			<tr>
+				<td><div id="rendered-status"></div></td>
+		</tfoot>
+
+	</table>
+</div>
+
+<div class="table-wrapper">
+
+	<table>
+		
+		<thead>
+			<tr>
+				<th class="table-head">
+				差异
+					<div class="tooltip">i
+						<span class="tooltiptext">渲染后源码与原始源码之间的差异。差异通常发生在页面加载后 JavaScript 修改了 DOM 的情况。</span>
+					</div>
+					(第 <span id="diff-count-current">0</span> 项，共 <span id="diff-count-total">0</span> 项)
+					<button class="copy-btn">复制</button>
+
+					<div class="column-info">
+						<span style="color: #b30000; background: #fadad7;">红色 = 删除的行</span>
+						<span style="background: #eaf2c2; color: #406619;">绿色 = 新增的行</span>
+					</div>
+				</th>
+			</tr>
+		</thead>
+
+		<tbody id="diff-display">
+		</tbody>
+
+		<tfoot>
+			<tr>
+				<td><div id="diff-status"></div></td>
+		</tfoot>
+
+	</table>
+</div>
+
+<div id="bottom-scroll-filler">
+	<span id="no-panels-selected"></span>
+</div>
+
+<div id="promo-footer">
+	<span>单合 _ 一个专门收录中文网站的网站</span>
+	<a href="https://www.danhe.com/" target="_blank" rel="noopener">https://www.danhe.com/</a>
+</div>
+
+<div id="back-to-top">
+	<img src="back-to-top.png" />
+	顶部
+</div>
+
+<script src="beautify-html.min.js"></script>
+<script src="danheyuandaima.js"></script>
+<!--<script src="highlight.pack.js"></script>-->
+
+</body>
+</html>
