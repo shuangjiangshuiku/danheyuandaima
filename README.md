@@ -2,6 +2,8 @@
 
 一个 Chrome 扩展（Manifest V3），用于对比网页的「源代码」「格式化后源码」「渲染后 DOM」，并高亮显示两者之间的差异。可以帮助你快速看出浏览器在渲染页面时，JavaScript 对 DOM 做了哪些修改。
 
+单合网站  [https://www.danhe.com/](https://www.danhe.com/)
+
 ## 功能
 
 - 抓取页面原始源代码（服务器返回的内容）
