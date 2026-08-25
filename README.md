@@ -12,6 +12,9 @@
 - 使用 [jsdiff](https://github.com/kpdecker/jsdiff) 生成两者的差异对比，红色表示删除、绿色表示新增
 - 支持右键菜单和快捷键 `Alt+U` 快速打开
 
+## 截图
+<img width="1271" height="854" alt="截屏2026-08-26 00 42 15" src="https://github.com/user-attachments/assets/037dc1b8-2545-4afd-b584-8f74205a45bb" />
+
 ## 安装方式（开发者模式加载）
 
 1. 下载或克隆本仓库到本地
