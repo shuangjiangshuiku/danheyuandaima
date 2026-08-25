@@ -28,7 +28,7 @@
 
 ## 安装方式（开发者模式加载）
 
-1. 下载或克隆本仓库到本地
+1. 下载或克隆本仓库到本地 https://github.com/shuangjiangshuiku/danheyuandaima/releases
 2. 打开 Chrome，访问 `chrome://extensions/`
 3. 打开右上角的「开发者模式」
 4. 点击「加载已解压的扩展程序」，选择本项目文件夹
