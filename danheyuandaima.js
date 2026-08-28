@@ -37,7 +37,11 @@
 	var tableHeadElAll = d.querySelectorAll('.table-head');
 	var tableTop = tableHeadElAll[0].getBoundingClientRect().top;
 
-	var currentURL = d.getElementById('current-url');
+	var urlInput = d.getElementById('url-input');
+	var viewCodeBtn = d.getElementById('view-code-btn');
+	var openPageLink = d.getElementById('open-page-link');
+	var originalURL = null; // 原始标签页的 URL
+	var inputMode = false;  // 是否为输入网址模式（无渲染后数据）
 	
 	var rawStatus = d.getElementById('raw-status');
 	var beautifiedStatus = d.getElementById('beautified-status');
@@ -52,6 +56,17 @@
 	//get tabID from URL parameter
 	var thisURL = new URL(window.location.href);
 	var tabID = thisURL.searchParams.get("tabID");
+
+	// 无 tabID 时，设置为纯输入模式
+	if (!tabID) {
+		inputMode = true;
+		originalURL = null;
+		rawURL = '';
+		d.title = '单合源代码';
+		updateOpenPageLink('');
+		renderedStatus.innerHTML = '<span style="color:#888;">输入网址模式不支持渲染后对比，请点击"打开网页"在页面中启动插件</span>';
+		showHideTables();
+	}
 
 	var doctype, userAgent, responseRaw, responseRendered, rawURL;
 	var allDiffItems, allDiffItemsPos = [];
@@ -89,6 +104,7 @@
 	});
 
 	
+	if (tabID) {
 	chrome.tabs.get(parseInt(tabID), function (tab) {
 
 		//for some reason there's no way to query if a tab still exists so have to look for error
@@ -99,14 +115,15 @@
 
 		//get URL of tab that opened us so we can fetch raw source
 		rawURL = tab.url;
+		originalURL = tab.url;
+		urlInput.value = tab.url;
 		d.title = '单合源代码: ' + rawURL.substring(0, 150);
-		currentURL.innerHTML = '网址: ' + rawURL;
-		currentURL.href = rawURL;
-		currentURL.title = rawURL;
+		updateOpenPageLink(rawURL);
+		inputMode = false;
 
-		var doctypeKey = "VRSDOCTYPE|" + tabID;
-		var userAgentKey = "VRSUA|" + tabID;
-		var renderedDOMKey = "VRS|" + tabID;
+		var doctypeKey = "danheyuandaimadoctype|" + tabID;
+		var userAgentKey = "danheyuandaimaua|" + tabID;
+		var renderedDOMKey = "danheyuandaima|" + tabID;
 
 		chrome.storage.local.get(doctypeKey, function(result) {
 			doctype = result[doctypeKey];
@@ -134,6 +151,7 @@
 			fetchSource(rawURL, 'raw');
 		});
 	});
+	} // end if (tabID)
 
 
 	//show a random tip
@@ -198,9 +216,23 @@
 			checkedCount = 3;
 		}
 
+		// 输入模式下，强制取消渲染后和差异的勾选
+		if (inputMode) {
+			tablesVisibleCheckbox[2].checked = false; // 渲染后
+			tablesVisibleCheckbox[3].checked = false; // 差异
+		}
+
 		saveSettings();
 
 		var n = checkedCount;
+
+		// 输入模式下，渲染后和差异不算入已选数量
+		if (inputMode) {
+			n = 0;
+			tablesVisibleCheckbox.forEach(function(c, i) {
+				if (c.checked && i < 2) n++; // 只统计源代码和初级规范
+			});
+		}
 
 		if(n == 0) {
 			d.getElementById('no-panels-selected').innerHTML = '未选择任何面板';
@@ -223,6 +255,12 @@
 				tableWrappers[i].style.display = 'none';
 			}
 		});
+
+		// 输入模式下，额外强制隐藏渲染后和差异面板
+		if (inputMode) {
+			tableWrappers[2].style.display = 'none';
+			tableWrappers[3].style.display = 'none';
+		}
 
 		//recalculate new vertical positions of <ins>/<del> as they will have shifted
 		calcDiffItemsPos();
@@ -318,13 +356,25 @@
 	//execute when window is scrolled
 	window.onscroll = nowScrolling;
 
+	// 动态计算顶部栏高度，设置 CSS 变量供 sticky 表头使用
+	function updateStickyVars() {
+		var topBar = d.getElementById('top');
+		if (!topBar) return;
+		var topBarH = topBar.offsetHeight;
+		var tableHeadH = tableHeadElAll[0] ? tableHeadElAll[0].offsetHeight : 37;
+		document.documentElement.style.setProperty('--top-bar-h', topBarH + 'px');
+		document.documentElement.style.setProperty('--sticky-offset', tableHeadH + 'px');
+	}
+	updateStickyVars();
+	window.addEventListener('resize', updateStickyVars);
+
 
 	function decodeHtml(html) {
 		// 如果原始HTML已经包含DOCTYPE，直接返回；否则补上
 		if (/^\s*<!DOCTYPE/i.test(html)) {
 			return html;
 		}
-		return doctype + "\n" + html;
+		return (doctype || '') + "\n" + html;
 	}
 
 	function strContains(haystack, needle) {
@@ -816,5 +866,84 @@
 		};
 
 	}
+
+	// 更新"打开网页"链接的 href
+	function updateOpenPageLink(url) {
+		var fullURL = url.trim();
+		if (fullURL && !/^https?:\/\//i.test(fullURL)) {
+			fullURL = 'https://' + fullURL;
+		}
+		openPageLink.href = fullURL || '#';
+		openPageLink.title = fullURL || '';
+	}
+
+	// 从输入框获取有效 URL
+	function getInputURL() {
+		var url = urlInput.value.trim();
+		if (!url) return null;
+		if (!/^https?:\/\//i.test(url)) {
+			url = 'https://' + url;
+		}
+		return url;
+	}
+
+	// 设置输入模式（无渲染后数据）
+	function setInputMode(enabled) {
+		inputMode = enabled;
+		if (enabled) {
+			// 清空渲染后和差异面板内容，显示提示
+			renderedDisplay.innerHTML = '';
+			diffDisplay.innerHTML = '';
+			renderedStatus.innerHTML = '<span style="color:#888;">输入网址模式不支持渲染后对比，请点击"打开网页"在页面中启动插件</span>';
+			diffStatus.innerHTML = '';
+		} else {
+			renderedStatus.innerHTML = '';
+			diffStatus.innerHTML = '';
+		}
+		showHideTables();
+	}
+
+	// "查看代码"按钮点击
+	viewCodeBtn.addEventListener('click', function() {
+		var url = getInputURL();
+		if (!url) {
+			alert('请输入有效的网址');
+			return;
+		}
+		rawURL = url;
+		d.title = '单合源代码: ' + rawURL.substring(0, 150);
+		updateOpenPageLink(rawURL);
+
+		// 判断是否为输入模式：URL 与原始标签页不同，或无原始标签页
+		var isInputOnly = (originalURL !== null && rawURL !== originalURL) || (originalURL === null);
+		setInputMode(isInputOnly);
+
+		// 重新获取原始源码
+		fetchSource(rawURL, 'raw');
+
+		// 如果是 tab 模式且 URL 未变，重新获取渲染后数据
+		if (!isInputOnly && tabID) {
+			var rKey = "danheyuandaima|" + tabID;
+			chrome.storage.local.get(rKey, function(result) {
+				var renderedBlobURL = result[rKey];
+				if (renderedBlobURL) {
+					fetchSource(renderedBlobURL, 'rendered');
+				}
+			});
+		}
+	});
+
+	// 回车也能触发查看代码
+	urlInput.addEventListener('keydown', function(e) {
+		if (e.key === 'Enter') {
+			viewCodeBtn.click();
+		}
+	});
+
+	// 输入框内容变化时实时更新"打开网页"链接
+	urlInput.addEventListener('input', function() {
+		var url = getInputURL();
+		updateOpenPageLink(url || '');
+	});
 
 })();

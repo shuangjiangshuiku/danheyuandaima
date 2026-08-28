@@ -3,7 +3,7 @@
 
 	"manifest_version": 3,
 	"name": "单合源代码", 
-	"version": "4.0",
+	"version": "5.0",
 	"description": "查看网页源代码与渲染后代码的差异。看看浏览器如何渲染页面，而不仅仅是服务器发送的内容。", 
 	"icons": {
 		"16": "icon16.png",

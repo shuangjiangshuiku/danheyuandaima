@@ -2,18 +2,17 @@
 
 一个 Chrome 扩展（Manifest V3），用于对比网页的「源代码」「格式化后源码」「渲染后 DOM」，并高亮显示两者之间的差异。可以帮助你快速看出浏览器在渲染页面时，JavaScript 对 DOM 做了哪些修改。
 
-单合网站  [https://www.danhe.com/](https://www.danhe.com/)
+单合网站 [https://www.danhe.com/](https://www.danhe.com/)
 
 ## 使用的理由
 
-- 插件轻量
-- 对汉语友好
-- 默认代码自动换行
-- 默认显示规范以后的代码
-- 插件还保留查看网页原版-源代码查看
-- 基于谷歌浏览器
-- 基于View Rendered Source这个插件修改而来
-- https://www.crxsoso.com/webstore/detail/ejgngohbdedoabanmclafpkoogegdpob
+- **插件轻量**：无冗余依赖，启动即用
+- **对汉语友好**：全中文界面，代码中文字符优化显示
+- **默认自动换行**：长代码行自动换行，无需横向滚动
+- **默认显示规范代码**：首次打开即展示格式化后的源码
+- **支持原始源码查看**：保留查看服务器返回的原始代码
+- **输入网址查看**：遇到禁止右键的网页，可直接输入网址查看源码
+- **基于 View Rendered Source 修改**：借鉴了 [View Rendered Source](https://www.crxsoso.com/webstore/detail/ejgngohbdedoabanmclafpkoogegdpob) 的核心逻辑，在此基础上优化体验
 
 ## 功能
 
@@ -22,17 +21,40 @@
 - 抓取页面渲染后的真实 DOM（`document.documentElement.outerHTML`）
 - 使用 [jsdiff](https://github.com/kpdecker/jsdiff) 生成两者的差异对比，红色表示删除、绿色表示新增
 - 支持右键菜单和快捷键 `Alt+U` 快速打开
+- 支持输入网址直接查看源码（无需打开目标页面）
 
 ## 截图
+
 <img width="1271" height="854" alt="截屏2026-08-26 00 42 15" src="https://github.com/user-attachments/assets/037dc1b8-2545-4afd-b584-8f74205a45bb" />
 
 ## 安装方式（开发者模式加载）
 
-1. 下载或克隆本仓库到本地 https://github.com/shuangjiangshuiku/danheyuandaima/releases
+1. 下载或克隆本仓库到本地 [https://github.com/shuangjiangshuiku/danheyuandaima/releases](https://github.com/shuangjiangshuiku/danheyuandaima/releases)
 2. 打开 Chrome，访问 `chrome://extensions/`
 3. 打开右上角的「开发者模式」
 4. 点击「加载已解压的扩展程序」，选择本项目文件夹
 5. 安装完成后，在任意网页上点击工具栏图标，或按 `Alt+U`，或右键页面选择「查看单合源代码」
+
+## 使用说明
+
+### 方式一：从网页启动（推荐）
+
+在任意网页上，通过以下任一方式启动：
+- 点击浏览器工具栏的扩展图标
+- 按快捷键 `Alt+U`
+- 右键页面 → 选择「查看单合源代码」
+
+启动后将自动展示该页面的「源代码」「初级规范」「渲染后」「差异」四个面板。
+
+### 方式二：输入网址查看
+
+遇到禁止右键的网页时：
+1. 点击工具栏扩展图标打开插件页面
+2. 在顶部输入框中填入目标网址
+3. 点击「查看代码」按钮
+4. 查看该网址的源代码和初级规范
+
+> 注意：输入网址模式下仅支持「源代码」和「初级规范」面板，如需渲染后对比，请点击「打开网页」在新标签页中启动插件。
 
 ## 项目结构
 
@@ -41,22 +63,32 @@
 ├── manifest.json           # 扩展清单（Manifest V3）
 ├── background.js           # Service Worker，处理右键菜单、快捷键、标签页逻辑
 ├── content.js               # 内容脚本，抓取渲染后的 DOM
-├── danheyuandaima.html      # 结果展示页面
-├── danheyuandaima.js         # 展示页面逻辑（抓取源码、格式化、发起 diff）
-├── diffWorker.js            # Web Worker，在后台线程执行 diff 计算
-├── diff.js                  # jsdiff 库（BSD License）
-├── beautify-html.min.js     # js-beautify 库（MIT License）
-├── style.css                 # 样式
-├── icon16/32/48/128.png     # 扩展图标
-├── loading.gif               # 加载动画
-└── back-to-top.png           # 回到顶部按钮图标
+├── danheyuandaima.html     # 结果展示页面
+├── danheyuandaima.js       # 展示页面逻辑（抓取源码、格式化、发起 diff）
+├── diffWorker.js           # Web Worker，在后台线程执行 diff 计算
+├── diff.js                 # jsdiff 库（BSD License）
+├── beautify-html.min.js    # js-beautify 库（MIT License）
+├── style.css               # 样式
+├── icon16/32/48/128.png    # 扩展图标
+├── loading.gif             # 加载动画
+└── back-to-top.png         # 回到顶部按钮图标
 ```
+
+## 更新日志
+
+### v5.0
+- 新增「输入网址查看」功能，支持禁止右键的网页
+- 新增「查看代码」按钮和「打开网页」链接
+- 顶部工具栏粘性固定，滚动时保持可见
+- 代码存储键前缀统一为 `danheyuandaima`
+- 优化代码高亮和差异对比体验
 
 ## 许可证
 
-第三方库 `diff.js`（jsdiff，BSD License）与 `beautify-html.min.js`（js-beautify，MIT License）保留了各自原始版权声明，请勿删除。项目本身采用 [LICENSE](./LICENSE) 中的许可证。
+第三方库 `diff.js`（jsdiff，BSD License）与 `beautify-html.min.js`（js-beautify，MIT License）保留了各自原始版权声明，请勿删除。项目本身采用 [LICENSE](https://github.com/shuangjiangshuiku/danheyuandaima/blob/main/LICENSE) 中的许可证。
 
 ## 已知限制
 
 - 需要 `host_permissions: http://*/*, https://*/*` 权限来抓取任意网页的源码
 - 无法在 Chrome 内置页面（如 `chrome://` 页面）或商店页面上使用
+- 输入网址模式下不支持「渲染后」和「差异」面板

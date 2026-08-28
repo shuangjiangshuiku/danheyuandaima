@@ -15,9 +15,9 @@ function launchVRS() {
 			if(response) {
 
 					var renderedObjURL = response.payload;
-					var renderedStorageKey = "VRS|" + tabs[0].id;
-					var doctypeKey = "VRSDOCTYPE|" + tabs[0].id;
-					var UAKey = "VRSUA|" + tabs[0].id;
+					var renderedStorageKey = "danheyuandaima|" + tabs[0].id;
+					var doctypeKey = "danheyuandaimadoctype|" + tabs[0].id;
+					var UAKey = "danheyuandaimaua|" + tabs[0].id;
 					
 					//add reference in storage to blobURL of rendered page
 					chrome.storage.local.set({ [renderedStorageKey]: renderedObjURL });
@@ -39,7 +39,7 @@ chrome.action.onClicked.addListener(function (info) {
 
 // create context menu (right click menu) - handle duplicate ID error on restart
 chrome.contextMenus.create({
-	id: "vrs_context_menu",
+	id: "danheyuandaima_context_menu",
 	title: "查看单合源代码 (Alt+U)", 
 	contexts:["page"]
 }, function() {
@@ -50,7 +50,7 @@ chrome.contextMenus.create({
 
 // Listen for the context menu item click
 chrome.contextMenus.onClicked.addListener(function(info, tab) {
-	if (info.menuItemId === "vrs_context_menu") {
+	if (info.menuItemId === "danheyuandaima_context_menu") {
 		launchVRS(); 
 	}
 });
@@ -64,9 +64,9 @@ chrome.commands.onCommand.addListener(function(command) {
 
 
 function removeStorage(tabId) {
-	var renderedDOMKey = "VRS|" + tabId;
-	var doctypeKey = "VRSDOCTYPE|" + tabId;
-	var UAKey = "VRSUA|" + tabId;
+	var renderedDOMKey = "danheyuandaima|" + tabId;
+	var doctypeKey = "danheyuandaimadoctype|" + tabId;
+	var UAKey = "danheyuandaimaua|" + tabId;
 	
 	chrome.storage.local.remove([renderedDOMKey, doctypeKey, UAKey]);
 }
